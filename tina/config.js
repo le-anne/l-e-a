@@ -77,6 +77,14 @@ export default defineConfig({
 								label: "Technical",
 							},
 							{
+								value: "tax",
+								label: "Tax",
+							},	
+							{
+								value: "california",
+								label: "California",
+							},
+							{
 								value: "advice",
 								label: "Advice",
 							},
@@ -101,8 +109,8 @@ export default defineConfig({
 								label: "Personal",
 							},
 							{
-								value: "musings",
-								label: "Musings",
+								value: "popculture",
+								label: "Pop Culture",
 							},
 						],
 					},
