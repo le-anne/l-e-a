@@ -18,6 +18,7 @@
     background-color: var(--highlight);
     color: var(--black);
 }
+
 html,
 body {
     margin: auto;
@@ -29,12 +30,14 @@ body {
     color: var(--black);
     font-family: 'Roboto', sans-serif;
 }
+
 html,
 body,
 button,
 code {
     font-family: 'Roboto', sans-serif;
 }
+
 h1,
 strong,
 b {
@@ -50,6 +53,7 @@ button.dark-mode button {
     background: var(--black);
     color: var(--white);
 }
+
 body.dark-mode nav {
     background: var(--transblack);
 }
@@ -64,25 +68,33 @@ body.dark-mode nav {
         background-color: #0f0f0f;
         color: var(--white);
     }
+
     :root {
         --gray: #a4a4a4;
     }
+
     html, body, body button, body h1, body strong, body b, body em, body blockquote, body .go-home {
         background: var(--black);
         color: var(--white);
     }
+
     body nav {
         background: var(--transblack);
     }
+
     body code {
         background-color: var(--moretranswhite);
     }
+
     body a {
         color: var(--white);
+        text-decoration-color: var(--white); /* Ensure underline matches text color */
     }
+
     body .tag {
         color: var(--gray);
     }
+
     .tag-title {
         color: var(--white);
     }
@@ -95,12 +107,27 @@ h2, h3, h4, h5, h6 {
 
 header {
     position: relative;
+	text-align: center;
 }
 
 a {
     color: var(--black);
-    text-decoration-thickness: 0.3ex;
-    text-underline-offset: 0.3ex;
+    text-decoration-thickness: 0.2ex;
+    text-underline-offset: 0.2ex;
+    text-decoration-color: var(--black); /* Ensure underline matches text color */
+}
+
+a:hover, a:focus, a:active {
+    text-decoration-color: var(--black); /* Ensure underline matches text color on interaction */
+}
+
+#about {
+    padding-left: 9ex; 
+	padding-right: 9ex;
+	margin-bottom: -4ex;
+	align-items: center;
+	text-align: center;
+    background-color: var(--white); /* Optional: Add a background color for better visibility */
 }
 
 nav {
@@ -113,8 +140,11 @@ nav {
 }
 
 nav a {
-    margin: 25px 0;
+    margin: 10px 0;
+    color: var(--black);
+    text-decoration-color: var(--black); /* Ensure underline matches text color */
 }
+
 nav a:not(:last-child) {
     padding: 0 12px 0 0;
 }
@@ -143,12 +173,14 @@ ul.tags-list {
     flex-wrap: wrap;
     justify-content: center;
 }
+
 .tag {
     display: inline-block;
     margin-right: 20px;
     color: var(--black);
     font-size: 0.8rem;
 }
+
 .tag:hover {
     cursor: pointer;
     font-weight: bold;
@@ -158,31 +190,39 @@ textarea {
     width: 100%;
     font-size: 16px;
 }
+
 input {
     font-size: 16px;
 }
+
 main,
 content {
     line-height: 1.6;
 }
+
 table {
     width: 100%;
 }
+
 img {
     max-width: 100%;
     height: auto;
 }
+
 code {
     padding: 2px 5px;
     background-color: var(--moretransblack);
     font-weight: bold;
 }
+
 pre {
     padding: 1rem;
 }
+
 pre > code {
     all: unset;
 }
+
 blockquote {
     border: 1px solid var(--gray);
     color: var(--black);
@@ -192,7 +232,7 @@ blockquote {
 }
 
 h1 {
-    font-weight: 400;
+    font-weight: 600;
 }
 
 h2 {
@@ -201,6 +241,11 @@ h2 {
 
 h3 {
     text-align: center;
+	font-weight: 400;
+}
+
+h3.desc {
+	margin-top: -10px;
 }
 
 .center {
@@ -247,5 +292,9 @@ ul li time {
 @media (max-width: 600px) {
     nav a:not(:last-child) {
         padding: 0;
+    }
+	#about {
+        padding-left: 1.5ex;
+        padding-right: 1.5ex;
     }
 }
