@@ -1,47 +1,38 @@
-/* ia-writer-mono-latin-400-normal */
+/* Import Roboto font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Roboto - Normal weight */
 @font-face {
-	font-family: "iA Writer Mono";
-	font-style: normal;
-	font-display: swap;
-	font-weight: 400;
-	src: url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-400-normal.woff2)
-			format("woff2"),
-		url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-400-normal.woff)
-			format("woff");
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 }
 
-/* ia-writer-mono-latin-700-normal */
+/* Roboto - Bold weight */
 @font-face {
-	font-family: "iA Writer Mono";
-	font-style: normal;
-	font-display: swap;
-	font-weight: 700;
-	src: url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-700-normal.woff2)
-			format("woff2"),
-		url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-700-normal.woff)
-			format("woff");
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 }
 
-/* ia-writer-mono-latin-400-italic */
+/* Roboto - Normal weight italic */
 @font-face {
-	font-family: "iA Writer Mono";
-	font-style: italic;
-	font-display: swap;
-	font-weight: 400;
-	src: url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-400-italic.woff2)
-			format("woff2"),
-		url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-400-italic.woff)
-			format("woff");
+    font-family: "Roboto";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,400&display=swap');
 }
 
-/* ia-writer-mono-latin-700-italic */
+/* Roboto - Bold weight italic */
 @font-face {
-	font-family: "iA Writer Mono";
-	font-style: italic;
-	font-display: swap;
-	font-weight: 700;
-	src: url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-700-italic.woff2)
-			format("woff2"),
-		url(https://cdn.jsdelivr.net/fontsource/fonts/ia-writer-mono@latest/latin-700-italic.woff)
-			format("woff");
+    font-family: "Roboto";
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,700;1,700&display=swap');
 }

@@ -1,3 +1,1 @@
-Welcome to this blog template by [cassidoo](https://cassidoo.co)!
-
-Enjoy!
+I'm a tax professional looking to make your life easier. 
