@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div>
+      <h1>Tax Estimator</h1>
+      <form id="tax-form" onsubmit="return false;">
+        <label for="grossIncome">Estimated Gross Income:</label>
+        <input type="number" id="grossIncome" />
+
+        <label for="filingStatus">Filing Status:</label>
+        <select id="filingStatus">
+          <option value="single">Single</option>
+          <option value="marriedFilingJointly">Married Filing Jointly</option>
+          <option value="marriedFilingSeparately">Married Filing Separately</option>
+          <option value="headOfHousehold">Head of Household</option>
+        </select>
+        <br><br>
+
+        <label for="state">State:</label>
+        <select id="state">
+          <option value="CA">California</option>
+          <!-- Add other states as needed -->
+        </select>
+
+        <label for="allowances">Allowances (W-4):</label>
+        <input type="number" id="allowances" placeholder="0" />
+        <br><br>
+        <label for="additionalWithholding">Additional Withholding:</label>
+        <input type="number" id="additionalWithholding" placeholder="0" />
+        <br><br>
+        <label for="box12Amount">Box 12 Amount (W-2):</label>
+        <input type="number" id="box12Amount" placeholder="0" />
+        <br><br>
+        <button type="button" id="calculateButton">Calculate</button>
+      </form>
+      <p id="result"></p>
+    </div>
+
+    <script>
+      const federalWithholdingTables = {
+        single: [
+          { limit: 11000, rate: 0.10 },
+          { limit: 44725, rate: 0.12 },
+          { limit: 95375, rate: 0.22 },
+          { limit: 182100, rate: 0.24 },
+          { limit: 231250, rate: 0.32 },
+          { limit: 578125, rate: 0.35 },
+          { limit: Infinity, rate: 0.37 },
+        ],
+        marriedFilingJointly: [
+          { limit: 22000, rate: 0.10 },
+          { limit: 89450, rate: 0.12 },
+          { limit: 190750, rate: 0.22 },
+          { limit: 364200, rate: 0.24 },
+          { limit: 462500, rate: 0.32 },
+          { limit: 693750, rate: 0.35 },
+          { limit: Infinity, rate: 0.37 },
+        ],
+        marriedFilingSeparately: [
+          { limit: 11000, rate: 0.10 },
+          { limit: 44725, rate: 0.12 },
+          { limit: 95375, rate: 0.22 },
+          { limit: 182100, rate: 0.24 },
+          { limit: 231250, rate: 0.32 },
+          { limit: 346875, rate: 0.35 },
+          { limit: Infinity, rate: 0.37 },
+        ],
+        headOfHousehold: [
+          { limit: 15700, rate: 0.10 },
+          { limit: 59850, rate: 0.12 },
+          { limit: 95350, rate: 0.22 },
+          { limit: 182100, rate: 0.24 },
+          { limit: 231250, rate: 0.32 },
+          { limit: 578100, rate: 0.35 },
+          { limit: Infinity, rate: 0.37 },
+        ],
+      };
+
+      const standardDeductions = {
+        single: 13850,
+        marriedFilingJointly: 27700,
+        marriedFilingSeparately: 13850,
+        headOfHousehold: 20800,
+      };
+
+      const stateTaxRates = {
+        CA: {
+          standardDeduction: 4903,
+          brackets: [
+            { limit: 10412, rate: 0.01 },
+            { limit: 24684, rate: 0.02 },
+            { limit: 38959, rate: 0.04 },
+            { limit: 54081, rate: 0.06 },
+            { limit: 68050, rate: 0.08 },
+            { limit: 349137, rate: 0.093 },
+            { limit: 418961, rate: 0.103 },
+            { limit: 698271, rate: 0.113 },
+            { limit: Infinity, rate: 0.123 },
+          ],
+        },
+        // Add other states if needed
+      };
+
+      function calculateFederalTax(grossIncome, filingStatus) {
+        const table = federalWithholdingTables[filingStatus];
+        const standardDeduction = standardDeductions[filingStatus];
+
+        const taxableIncome = Math.max(0, grossIncome - standardDeduction);
+        let federalTax = 0;
+        let previousLimit = 0;
+
+        for (const bracket of table) {
+          if (taxableIncome > bracket.limit) {
+            federalTax += (bracket.limit - previousLimit) * bracket.rate;
+            previousLimit = bracket.limit;
+          } else {
+            federalTax += (taxableIncome - previousLimit) * bracket.rate;
+            break;
+          }
+        }
+
+        return federalTax;
+      }
+
+      function calculateStateTax(grossIncome, state) {
+        const stateTax = stateTaxRates[state];
+        if (!stateTax) {
+          return 0;
+        }
+
+        const { standardDeduction, brackets } = stateTax;
+        const taxableIncome = Math.max(0, grossIncome - standardDeduction);
+        let stateTaxAmount = 0;
+        let previousLimit = 0;
+
+        for (const bracket of brackets) {
+          if (taxableIncome > bracket.limit) {
+            stateTaxAmount += (bracket.limit - previousLimit) * bracket.rate;
+            previousLimit = bracket.limit;
+          } else {
+            stateTaxAmount += (taxableIncome - previousLimit) * bracket.rate;
+            break;
+          }
+        }
+
+        return stateTaxAmount;
+      }
+
+      function calculateSocialSecurityTax(grossIncome) {
+        const socialSecurityTax = Math.min(grossIncome, 147000) * 0.062;
+        return socialSecurityTax;
+      }
+
+      function calculateMedicareTax(grossIncome) {
+        const medicareTax = grossIncome * 0.0145;
+        return medicareTax;
+      }
+
+      function calculateEstimatedTaxWithheld(grossIncome, filingStatus, state, allowances, additionalWithholding) {
+        const federalTax = calculateFederalTax(grossIncome, filingStatus);
+        const stateTax = calculateStateTax(grossIncome, state);
+        const socialSecurityTax = calculateSocialSecurityTax(grossIncome);
+        const medicareTax = calculateMedicareTax(grossIncome);
+
+        const totalTax = federalTax + stateTax + socialSecurityTax + medicareTax;
+
+        const allowanceAmount = 4300;
+        const adjustedTax = totalTax - (allowances * allowanceAmount) + additionalWithholding;
+
+        return adjustedTax;
+      }
+
+      function calculateTaxLiability(grossIncome, filingStatus, state) {
+        const federalTax = calculateFederalTax(grossIncome, filingStatus);
+        const stateTax = calculateStateTax(grossIncome, state);
+        const socialSecurityTax = calculateSocialSecurityTax(grossIncome);
+        const medicareTax = calculateMedicareTax(grossIncome);
+
+        const totalTaxLiability = federalTax + stateTax + socialSecurityTax + medicareTax;
+        return totalTaxLiability;
+      }
+
+      document.getElementById('calculateButton').addEventListener('click', () => {
+  const grossIncomeElement = document.getElementById('grossIncome') as HTMLInputElement | null;
+  const filingStatusElement = document.getElementById('filingStatus') as HTMLSelectElement | null;
+  const stateElement = document.getElementById('state') as HTMLSelectElement | null;
+  const allowancesElement = document.getElementById('allowances') as HTMLInputElement | null;
+  const additionalWithholdingElement = document.getElementById('additionalWithholding') as HTMLInputElement | null;
+
+  if (!grossIncomeElement || !filingStatusElement || !stateElement || !allowancesElement || !additionalWithholdingElement) {
+    console.error("One or more form elements are missing.");
+    return;
+  }
+
+  const grossIncome = parseFloat(grossIncomeElement.value) || 0;
+  const filingStatus = filingStatusElement.value || 'single';
+  const state = stateElement.value || 'CA';
+  const allowances = parseFloat(allowancesElement.value) || 0;
+  const additionalWithholding = parseFloat(additionalWithholdingElement.value) || 0;
+
+  const estimatedTaxWithheld = calculateEstimatedTaxWithheld(grossIncome, filingStatus, state, allowances, additionalWithholding);
+  const totalTaxLiability = calculateTaxLiability(grossIncome, filingStatus, state);
+
+  const amountOwedOrRefund = totalTaxLiability - estimatedTaxWithheld;
+
+  const resultText = `
+    Estimated Tax Withheld: $${estimatedTaxWithheld.toFixed(2)}
+    <br>
+    ${amountOwedOrRefund >= 0 ? `You owe $${amountOwedOrRefund.toFixed(2)}` : `You will be refunded $${Math.abs(amountOwedOrRefund).toFixed(2)}`}
+  `;
+
+  const resultElement = document.getElementById('result');
+  if (resultElement) {
+    resultElement.innerHTML = resultText;
+  } else {
+    console.error("Result element not found.");
+  }
+});
+
+    </script>
+  </body>
+</html>

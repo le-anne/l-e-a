@@ -280,6 +280,11 @@ article :not(.article-title) {
     margin-block-start: 1em;
 }
 
+.disclaimer {
+    color: var(--red);
+    font-size: .75em;
+}
+
 time {
     font-style: italic;
     color: var(--gray);
